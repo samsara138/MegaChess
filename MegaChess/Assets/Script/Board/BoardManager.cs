@@ -8,13 +8,11 @@ namespace Board
     public class BoardManager : MonoBehaviour
     {
         [SerializeField] private BoardModel model;
-        [SerializeField] private GameObject tile;
-        [SerializeField] private GameObject piece;
+        [SerializeField] private GameObject tileObj;
+        [SerializeField] private GameObject pieceObj;
         [SerializeField] private Transform BoardContainer;
 
-
         [SerializeField] private List<TileModel> availableTiles;
-
 
         private BoardController controller;
 
@@ -24,8 +22,8 @@ namespace Board
             controller = new BoardController();
             controller.Intialize(model);
             controller.configure();
-            controller.CreateTiles(tile, BoardContainer);
-
+            controller.CreateTiles(tileObj, BoardContainer);
+            controller.CreatePieces(pieceObj);
         }
 
         // Update is called once per frame

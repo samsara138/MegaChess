@@ -7,9 +7,11 @@ namespace Tile
 {
     public class TileController : Controller<TileModel,TileView>
     {
-        public void Configure()
+        private Vector2 gridPosition;
+        public void Configure(Vector2 pos)
         {
             View.Configure(Model);
+            gridPosition = pos;
         }
     }
 }

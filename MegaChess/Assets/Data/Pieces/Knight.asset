@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e360f1d2a29a1842a93b4cf43ed51cd, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: 
-  PieceName: Knight
-  Sprite: {fileID: 0}
+  ModelName: Knight
+  WhiteSpirte: {fileID: 21300000, guid: efb161ddc16a61446b9958a4de61715b, type: 3}
+  BlackSprite: {fileID: 21300000, guid: c0e0a887dc71e3840a392f1155c5b64e, type: 3}
+  PieceType: 5
