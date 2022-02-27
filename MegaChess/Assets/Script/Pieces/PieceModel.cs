@@ -6,8 +6,9 @@ namespace Pieces
     [CreateAssetMenu(fileName = "PieceModel", menuName = "Mega Chess/Piece Model")]
     public class PieceModel : Model
     {
-        public string PieceName;
-        public Sprite Sprite;
+        public Sprite WhiteSpirte;
+        public Sprite BlackSprite;
+
         public PieceType PieceType;
     }
 

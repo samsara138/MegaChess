@@ -1,3 +1,4 @@
+using Board;
 using Core;
 using UnityEngine;
 
@@ -6,14 +7,19 @@ namespace Pieces
     public class PieceController : Controller<PieceModel,PieceView>
     {
         private Vector2 position;
-        private short side;
+        private PlayerSide side;
 
-        public void Configure(PieceModel pieceModel, Vector2 position, short side)
+        public void Configure(Vector2 position, PlayerSide side)
         {
-            base.Intialize(pieceModel);
-
             this.position = position;
             this.side = side;
+            View.Configure(Model,side);
+            View.GetClickDetector.onClick.AddListener(OnClick);
+        }
+
+        public void OnClick()
+        {
+            Debug.Log("Click on " + Model.ModelName + " of player " + side + " at position " + position);
         }
     }
 }

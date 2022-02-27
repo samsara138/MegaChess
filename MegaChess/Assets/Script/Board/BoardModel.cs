@@ -21,11 +21,11 @@ namespace Board
         public void InitData()
         {
             boardSettings = new List<TileSetting>();
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < Height; j++)
+                for (int j = 0; j < Width; j++)
                 {
-                    TileSetting setting = new TileSetting(i, j);
+                    TileSetting setting = new TileSetting(j, i);
 
                     int buffer = (i + j) % 2;
                     setting.tileModel = DebugTiles[buffer];
@@ -41,6 +41,7 @@ namespace Board
     {
         public int x;
         public int y;
+        public PlayerSide side;
         public PieceModel piece;
         public TileModel tileModel;
 
@@ -48,6 +49,7 @@ namespace Board
         {
             this.x = x;
             this.y = y;
+            side = PlayerSide.player1;
             piece = null;
             tileModel = null;
         }

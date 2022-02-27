@@ -10,59 +10,73 @@ namespace Board
     public class BoardController : Controller<BoardModel, BoardView>
     {
         private Dictionary<Vector2, PieceController> BoardData;
+        private Dictionary<Vector2, TileController> TilesData;
 
-        private List<TileController> tiles;
-
+        public int Height => Model.Height;
+        public int Width => Model.Width;
 
         public void configure()
         {
             BoardData = new Dictionary<Vector2, PieceController>();
         }
 
-        public void CreateTiles(GameObject tile, Transform boardTransform)
+        private Vector2 GetRealPosition(Vector2 postion)
         {
-            tiles = new List<TileController>();
-            List<TileSetting> boardSettings = Model.boardSettings;
             float tileLength = TileModel.tileLength;
+            Vector2 position = new Vector2(postion.x * tileLength, postion.y * tileLength);
+            Vector2 positionOffet = new Vector2((Width - 1) * (tileLength / 2),
+                                               (Height - 1) * (tileLength / 2));
+            position -= positionOffet;
+            return position;
+        }
 
-            Vector2 positionOffet = new Vector2((Model.Width - 1) * (tileLength / 2), 
-                                                (Model.Height - 1) * (tileLength / 2));
-
+        /// <summary>
+        /// Spawn the tile grid
+        /// </summary>
+        /// <param name="tileObj"></param>
+        /// <param name="boardTransform"></param>
+        public void CreateTiles(GameObject tileObj, Transform boardTransform)
+        {
+            TilesData = new Dictionary<Vector2, TileController>();
+            List<TileSetting> boardSettings = Model.boardSettings;
 
             foreach (TileSetting setting in boardSettings)
             {
-                Vector2 position = new Vector2(setting.x * tileLength, setting.y * tileLength);
-                position -= positionOffet;
-
-                Quaternion rotation = Quaternion.identity;
-
-                GameObject bufferObj = GameObject.Instantiate(tile, position, rotation, boardTransform);
+                Vector2 gridPosition = new Vector2(setting.x, setting.y);
+                Vector2 position = GetRealPosition(gridPosition);
+                GameObject bufferObj = GameObject.Instantiate(tileObj, position, Quaternion.identity, boardTransform);
 
                 TileController tileBuffer = new TileController();
                 tileBuffer.Intialize(setting.tileModel);
                 tileBuffer.BindView(bufferObj.GetComponent<TileView>());
-                tileBuffer.Configure();
-                tiles.Add(tileBuffer);
+                tileBuffer.Configure(gridPosition);
+                TilesData.Add(gridPosition,tileBuffer);
             }
         }
 
-        public void CreatePieces()
+        public void CreatePieces(GameObject pieceObj)
         {
+            List<TileSetting> boardSettings = Model.boardSettings;
+            BoardData = new Dictionary<Vector2, PieceController>();
 
-            /*
-                         foreach (TileSetting setting in Model.BoardData)
+            foreach (TileSetting setting in boardSettings)
             {
                 if (setting.piece != null)
                 {
-                    Vector2 pos = new Vector2(setting.x, setting.y);
+                    Vector2 gridPosition = new Vector2(setting.x, setting.y);
+                    Vector2 position = GetRealPosition(gridPosition);
 
-                    PieceController controller = new PieceController();
-                    controller.Intialize(setting.piece);
+                    Transform tileTransform = TilesData[gridPosition].View.transform;
+                    GameObject bufferObj = GameObject.Instantiate(pieceObj, position, 
+                            Quaternion.identity, tileTransform);
 
-                    BoardData.Add(pos, controller);
+                    PieceController pieceBuffer = new PieceController();
+                    pieceBuffer.Intialize(setting.piece);
+                    pieceBuffer.BindView(bufferObj.GetComponent<PieceView>());
+                    pieceBuffer.Configure(gridPosition,setting.side);
+                    BoardData.Add(gridPosition, pieceBuffer);
                 }
             }
-             * */
         }
 
     }

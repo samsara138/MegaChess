@@ -336,8 +336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 11400000, guid: 3ecf66f419bcb854885887f0c6f89501, type: 2}
-  tile: {fileID: 9100613516924619691, guid: 2f957806c3f237746b12f4b66ac7e30d, type: 3}
-  piece: {fileID: 3475681306085746867, guid: 6c7eb19246edc02449f3595d4afe3ef1, type: 3}
+  tileObj: {fileID: 9100613516924619691, guid: 2f957806c3f237746b12f4b66ac7e30d, type: 3}
+  pieceObj: {fileID: 3475681306085746867, guid: 6c7eb19246edc02449f3595d4afe3ef1, type: 3}
   BoardContainer: {fileID: 1628999679}
   availableTiles:
   - {fileID: 11400000, guid: c06e727cf8de9c9499541a36d23f2aae, type: 2}
