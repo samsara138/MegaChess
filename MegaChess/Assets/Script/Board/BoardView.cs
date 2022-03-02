@@ -7,5 +7,6 @@ namespace Board
 {
     public class BoardView : View
     {
+
     }
 }

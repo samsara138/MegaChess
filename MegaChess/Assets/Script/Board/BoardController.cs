@@ -1,5 +1,6 @@
 using Core;
 using Pieces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tile;
@@ -18,6 +19,29 @@ namespace Board
         public void configure()
         {
             BoardData = new Dictionary<Vector2, PieceController>();
+            EventManager.SubscribeToEvent(Core.EventType.ChessClickEvent, HandleClick);
+        }
+
+        public void UnBind()
+        {
+            EventManager.UnsubscribeToEvent(Core.EventType.ChessClickEvent, HandleClick);
+            foreach(TileController tileController in TilesData.Values)
+            {
+                tileController.UnBind();
+            }
+        }
+
+        private void HandleClick(object obj)
+        {
+            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+            ChessClickEvent data = obj as ChessClickEvent;
+            Vector2 debugB = data.gridPosition;
+            debugB.x += 1;
+            TilesData[debugB].ShowEffect(MoveType.NormalMove);
+            debugB.y += 1;
+
+            TilesData[debugB].ShowEffect(MoveType.KillMove);
+
         }
 
         private Vector2 GetRealPosition(Vector2 postion)

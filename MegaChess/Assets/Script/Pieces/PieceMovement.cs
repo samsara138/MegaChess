@@ -39,6 +39,7 @@ namespace Pieces
 
     public enum MoveType
     {
+        NULL = 0,
         //Move without any further action
         NormalMove = 1,
         //Move and kill the piece

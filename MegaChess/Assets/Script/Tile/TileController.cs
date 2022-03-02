@@ -1,4 +1,6 @@
 using Core;
+using Pieces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +14,22 @@ namespace Tile
         {
             View.Configure(Model);
             gridPosition = pos;
+            EventManager.SubscribeToEvent(Core.EventType.ClearTileEffectEvent, ClearEffect);
+        }
+
+        public void UnBind()
+        {
+            EventManager.UnsubscribeToEvent(Core.EventType.ClearTileEffectEvent, ClearEffect);
+        }
+
+        private void ClearEffect(object obj)
+        {
+            ShowEffect(MoveType.NULL);
+        }
+
+        public void ShowEffect(MoveType type)
+        {
+            View.ShowStepEffect(type);
         }
     }
 }

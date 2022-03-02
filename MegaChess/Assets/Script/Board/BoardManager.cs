@@ -26,10 +26,9 @@ namespace Board
             controller.CreatePieces(pieceObj);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnDestroy()
         {
-
+            controller.UnBind();
         }
     }
 }

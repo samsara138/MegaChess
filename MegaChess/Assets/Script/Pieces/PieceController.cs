@@ -20,6 +20,10 @@ namespace Pieces
         public void OnClick()
         {
             Debug.Log("Click on " + Model.ModelName + " of player " + side + " at position " + position);
+
+            ChessClickEvent data = new ChessClickEvent();
+            data.gridPosition = this.position;
+            EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
         }
     }
 }
