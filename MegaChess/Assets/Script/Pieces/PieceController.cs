@@ -23,6 +23,8 @@ namespace Pieces
 
             ChessClickEvent data = new ChessClickEvent();
             data.gridPosition = this.position;
+            data.pieceType = Model.PieceType;
+
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
         }
     }
