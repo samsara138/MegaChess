@@ -1,4 +1,5 @@
 using Board;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,11 +30,24 @@ namespace Pieces
                 case PieceType.Bishop:
                     break;
                 case PieceType.Knight:
+                    return CalculateKnightMovement(piecePosition, boardController, pieceType);
                     break;
                 case PieceType.Pawn:
                     break;
             }
             return null;
+        }
+
+        private static Dictionary<Vector2, MoveType> CalculateKnightMovement(Vector2 piecePosition,BoardController boardController, PieceType pieceType)
+        {
+            Dictionary<Vector2, MoveType> result = new Dictionary<Vector2, MoveType>();
+
+            Vector2 testPosition = new Vector2(piecePosition.x, piecePosition.y);
+            testPosition.x += 2;
+            testPosition.y += 1;
+            result.Add(testPosition, MoveType.NormalMove);
+
+            return result;
         }
     }
 
