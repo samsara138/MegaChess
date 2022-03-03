@@ -10,7 +10,7 @@ namespace Board
 {
     public class BoardController : Controller<BoardModel, BoardView>
     {
-        private Dictionary<Vector2, PieceController> BoardData;
+        private Dictionary<Vector2, PieceController> PieceData;
         private Dictionary<Vector2, TileController> TilesData;
 
         public int Height => Model.Height;
@@ -18,7 +18,7 @@ namespace Board
 
         public void configure()
         {
-            BoardData = new Dictionary<Vector2, PieceController>();
+            PieceData = new Dictionary<Vector2, PieceController>();
             EventManager.SubscribeToEvent(Core.EventType.ChessClickEvent, HandleClick);
         }
 
@@ -35,13 +35,12 @@ namespace Board
         {
             EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
             ChessClickEvent data = obj as ChessClickEvent;
-            Vector2 debugB = data.gridPosition;
-            debugB.x += 1;
-            TilesData[debugB].ShowEffect(MoveType.NormalMove);
-            debugB.y += 1;
 
-            TilesData[debugB].ShowEffect(MoveType.KillMove);
-
+            Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceType);
+            foreach(KeyValuePair<Vector2,MoveType> pair in movements)
+            {
+                TilesData[pair.Key].ShowEffect(pair.Value);
+            }
         }
 
         private Vector2 GetRealPosition(Vector2 postion)
@@ -81,7 +80,7 @@ namespace Board
         public void CreatePieces(GameObject pieceObj)
         {
             List<TileSetting> boardSettings = Model.boardSettings;
-            BoardData = new Dictionary<Vector2, PieceController>();
+            PieceData = new Dictionary<Vector2, PieceController>();
 
             foreach (TileSetting setting in boardSettings)
             {
@@ -98,7 +97,7 @@ namespace Board
                     pieceBuffer.Intialize(setting.piece);
                     pieceBuffer.BindView(bufferObj.GetComponent<PieceView>());
                     pieceBuffer.Configure(gridPosition,setting.side);
-                    BoardData.Add(gridPosition, pieceBuffer);
+                    PieceData.Add(gridPosition, pieceBuffer);
                 }
             }
         }

@@ -1,3 +1,4 @@
+using Pieces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace Core
     public class ChessClickEvent
     {
         public Vector2 gridPosition;
+        public PieceType pieceType;
     }
 
     public static class EventManager
