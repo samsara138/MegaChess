@@ -1,12 +1,14 @@
 using Board;
 using Core;
+using System;
+using Tile;
 using UnityEngine;
 
 namespace Pieces
 {
     public class PieceController : Controller<PieceModel,PieceView>
     {
-        private Vector2 position;
+        public Vector2 position;
         private PlayerSide side;
 
         public void Configure(Vector2 position, PlayerSide side)
@@ -14,7 +16,7 @@ namespace Pieces
             this.position = position;
             this.side = side;
             View.Configure(Model,side);
-            View.GetClickDetector.onClick.AddListener(OnClick);
+            View.ClickDetector.onClick.AddListener(OnClick);
         }
 
         public void OnClick()
@@ -23,9 +25,20 @@ namespace Pieces
 
             ChessClickEvent data = new ChessClickEvent();
             data.gridPosition = this.position;
-            data.pieceType = Model.PieceType;
+            data.controller = this;
 
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
+        }
+
+        public void OnKill()
+        {
+            View.OnKill();
+        }
+
+        internal void MoveToPosition(TileController tileContrller)
+        {
+            View.MoveToPosition(tileContrller.View.gameObject.transform);
+            position = tileContrller.gridPosition;
         }
     }
 }

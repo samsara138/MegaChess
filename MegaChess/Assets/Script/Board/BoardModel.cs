@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Board
 {
     [CreateAssetMenu(fileName = "BoardModel", menuName = "Mega Chess/Board Model")]
-    public class BoardModel : Model
+    public partial class BoardModel : Model
     {
         public int Width;
         public int Height;
@@ -20,6 +20,15 @@ namespace Board
 
         public void InitData()
         {
+            InitStandardBoard();
+        }
+    }
+
+    public partial class BoardModel
+    {
+        private void InitStandardBoard()
+        {
+
             boardSettings = new List<TileSetting>();
             for (int i = 0; i < Height; i++)
             {

@@ -16,6 +16,10 @@ namespace Board
 
         private BoardController controller;
 
+        public static int boardWidth;
+        public static int boardHeight;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -24,6 +28,9 @@ namespace Board
             controller.configure();
             controller.CreateTiles(tileObj, BoardContainer);
             controller.CreatePieces(pieceObj);
+
+            boardWidth = controller.Width;
+            boardHeight = controller.Height;
         }
 
         private void OnDestroy()
