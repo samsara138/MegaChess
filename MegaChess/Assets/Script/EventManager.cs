@@ -44,7 +44,10 @@ namespace Core
 
         public static void TriggerEvent(EventType type, object data = null)
         {
-            EventSystem[type]?.Invoke(data);
+            if (EventSystem.ContainsKey(type))
+                EventSystem[type]?.Invoke(data);
+            else
+                Debug.LogWarning("No subscriber for " + type);
         }
 
     }

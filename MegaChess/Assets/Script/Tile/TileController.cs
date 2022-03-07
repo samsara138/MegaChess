@@ -10,6 +10,7 @@ namespace Tile
     public class TileController : Controller<TileModel,TileView>
     {
         public Vector2 gridPosition;
+        public PieceController childPiece;
 
         public void Configure(Vector2 pos)
         {

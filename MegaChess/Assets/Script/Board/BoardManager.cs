@@ -1,3 +1,4 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using Tile;
@@ -7,12 +8,11 @@ namespace Board
 {
     public class BoardManager : MonoBehaviour
     {
-        [SerializeField] private BoardModel model;
+        [SerializeField] private BoardModel boardModel;
         [SerializeField] private GameObject tileObj;
         [SerializeField] private GameObject pieceObj;
-        [SerializeField] private Transform BoardContainer;
-
-        [SerializeField] private List<TileModel> availableTiles;
+        [SerializeField] private Transform boardContainer;
+        [SerializeField] private ChessRuleBook ruleBook;
 
         private BoardController controller;
 
@@ -23,14 +23,17 @@ namespace Board
         // Start is called before the first frame update
         void Start()
         {
-            controller = new BoardController();
-            controller.Intialize(model);
-            controller.configure();
-            controller.CreateTiles(tileObj, BoardContainer);
-            controller.CreatePieces(pieceObj);
+            boardWidth = boardModel.Width;
+            boardHeight = boardModel.Height;
 
-            boardWidth = controller.Width;
-            boardHeight = controller.Height;
+            controller = new BoardController();
+            controller.Intialize(boardModel);
+            controller.configure(ruleBook);
+
+            controller.CreateTiles(tileObj, boardContainer);
+            controller.CreatePieces(pieceObj);
+            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+
         }
 
         private void OnDestroy()

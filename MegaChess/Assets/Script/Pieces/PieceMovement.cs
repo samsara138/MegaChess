@@ -47,6 +47,11 @@ namespace Pieces
             testPosition.y += 1;
             result.Add(testPosition, MoveType.NormalMove);
 
+            testPosition = new Vector2(piecePosition.x, piecePosition.y);
+            testPosition.x += 1;
+            testPosition.y += 2;
+            result.Add(testPosition, MoveType.KillMove);
+
             return result;
         }
     }

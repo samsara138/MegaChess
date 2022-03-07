@@ -32,7 +32,7 @@ namespace Pieces
 
         internal void MoveToPosition(Transform tileTransform)
         {
-            transform.parent = tileTransform;
+            transform.SetParent(tileTransform);
             transform.localPosition = Vector3.zero;
         }
     }

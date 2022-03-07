@@ -8,29 +8,6 @@ using UnityEngine;
 
 namespace Board
 {
-    public class MovementBuffer
-    {
-        public PieceController pieceController;
-        private Dictionary<Vector2, MoveType> movements;
-
-        public MovementBuffer(PieceController controller, Dictionary<Vector2, MoveType> moves)
-        {
-            pieceController = controller;
-            movements = moves;
-        }
-
-        public bool TryGetMove(Vector2 gridPostition, out MoveType moveType)
-        {
-            moveType = MoveType.NULL;
-            if (movements.ContainsKey(gridPostition))
-            {
-                moveType = movements[gridPostition];
-                return true;
-            }
-            return false;
-        }
-    }
-
     public class BoardController : Controller<BoardModel, BoardView>
     {
         private Dictionary<Vector2, PieceController> PieceData;
@@ -38,14 +15,20 @@ namespace Board
 
         private MovementBuffer moveBuffer;
 
+        public BoardPlayerState playerState;
+        private ChessRuleBook ruleBook;
+
+
         public int Height => Model.Height;
         public int Width => Model.Width;
 
-        public void configure()
+        public void configure(ChessRuleBook ruleBook)
         {
             PieceData = new Dictionary<Vector2, PieceController>();
             EventManager.SubscribeToEvent(Core.EventType.ChessClickEvent, HandlePieceClick);
             EventManager.SubscribeToEvent(Core.EventType.TileClickEvent, HandleTileClick);
+            playerState = new BoardPlayerState(ruleBook);
+            this.ruleBook = ruleBook;
         }
 
         public void UnBind()
@@ -60,10 +43,10 @@ namespace Board
         private void HandlePieceClick(object obj)
         {
             ChessClickEvent data = obj as ChessClickEvent;
-            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
 
-            if (moveBuffer == null)
+            if (data.controller.side == playerState.currentPlayer)
             {
+                EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
                 Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.controller.Model.PieceType);
                 foreach (KeyValuePair<Vector2, MoveType> pair in movements)
                 {
@@ -73,21 +56,31 @@ namespace Board
             }
             else
             {
-                MoveType moveType;
-                if (moveBuffer.TryGetMove(data.gridPosition, out moveType))
+                if (moveBuffer != null)
                 {
-                    if (moveType == MoveType.KillMove)
+                    MoveType moveType;
+                    if (moveBuffer.TryGetMove(data.gridPosition, out moveType))
                     {
-                        PieceData[data.gridPosition].OnKill();
+                        if (moveType == MoveType.KillMove)
+                        {
+                            PieceData[data.gridPosition].OnKill();
 
-                        PieceController buffer = moveBuffer.pieceController;
-                        PieceData.Remove(moveBuffer.pieceController.position);
-                        PieceData[data.gridPosition] = buffer;
+                            PieceController buffer = moveBuffer.pieceController;
+                            buffer.MoveToPosition(PieceData[data.gridPosition].parentTile);
 
-                        moveBuffer = null;
+                            PieceData.Remove(moveBuffer.pieceController.position);
+                            PieceData[data.gridPosition] = buffer;
+
+                            moveBuffer = null;
+                            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+                            playerState.NextMove();
+                        }
                     }
                 }
             }
+
+
+
         }
 
         private void HandleTileClick(object obj)
@@ -95,22 +88,28 @@ namespace Board
             TileClickEvent data = obj as TileClickEvent;
 
             MoveType moveType;
-            if (moveBuffer.TryGetMove(data.gridPosition, out moveType))
+            if (moveBuffer != null)
             {
-                if(moveType == MoveType.NormalMove)
+                if (moveBuffer.TryGetMove(data.gridPosition, out moveType))
                 {
-                    PieceController buffer = moveBuffer.pieceController;
+                    if (moveType == MoveType.NormalMove)
+                    {
+                        PieceController buffer = moveBuffer.pieceController;
 
-                    buffer.MoveToPosition(data.controller);
+                        buffer.MoveToPosition(data.controller);
 
-                    PieceData.Remove(moveBuffer.pieceController.position);
-                    PieceData[data.gridPosition] = buffer;
+                        PieceData.Remove(moveBuffer.pieceController.position);
+                        PieceData[data.gridPosition] = buffer;
 
-                    moveBuffer = null;
-                    EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+                        moveBuffer = null;
+                        EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+                        playerState.NextMove();
+                    }
                 }
             }
         }
+
+        #region creating board
 
         /// <summary>
         /// Spawn the tile grid
@@ -155,11 +154,12 @@ namespace Board
                     PieceController pieceBuffer = new PieceController();
                     pieceBuffer.Intialize(setting.piece);
                     pieceBuffer.BindView(bufferObj.GetComponent<PieceView>());
-                    pieceBuffer.Configure(gridPosition, setting.side);
+                    pieceBuffer.Configure(gridPosition, setting.side, TilesData[gridPosition]);
                     PieceData.Add(gridPosition, pieceBuffer);
                 }
             }
         }
 
+        #endregion creating board
     }
 }

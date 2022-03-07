@@ -9,14 +9,17 @@ namespace Pieces
     public class PieceController : Controller<PieceModel,PieceView>
     {
         public Vector2 position;
-        private PlayerSide side;
+        public PlayerSide side;
+        public TileController parentTile;
 
-        public void Configure(Vector2 position, PlayerSide side)
+        public void Configure(Vector2 position, PlayerSide side, TileController parentTile)
         {
             this.position = position;
             this.side = side;
             View.Configure(Model,side);
             View.ClickDetector.onClick.AddListener(OnClick);
+            this.parentTile = parentTile;
+            parentTile.childPiece = this;
         }
 
         public void OnClick()
@@ -32,12 +35,17 @@ namespace Pieces
 
         public void OnKill()
         {
+            parentTile.childPiece = null;
             View.OnKill();
         }
 
         internal void MoveToPosition(TileController tileContrller)
         {
-            View.MoveToPosition(tileContrller.View.gameObject.transform);
+            parentTile.childPiece = null;
+            parentTile = tileContrller;
+            parentTile.childPiece = this;
+
+            View.MoveToPosition(parentTile.View.gameObject.transform);
             position = tileContrller.gridPosition;
         }
     }
