@@ -38,7 +38,7 @@ namespace Board
 
         private void OnDestroy()
         {
-            controller.UnBind();
+            if(controller != null) { controller.UnBind(); }
         }
     }
 }

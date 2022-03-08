@@ -28,7 +28,7 @@ namespace Pieces
 
             ChessClickEvent data = new ChessClickEvent();
             data.gridPosition = this.position;
-            data.controller = this;
+            data.pieceController = this;
 
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
         }

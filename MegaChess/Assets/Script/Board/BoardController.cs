@@ -10,7 +10,7 @@ namespace Board
 {
     public class BoardController : Controller<BoardModel, BoardView>
     {
-        private Dictionary<Vector2, PieceController> PieceData;
+        public Dictionary<Vector2, PieceController> PieceData;
         private Dictionary<Vector2, TileController> TilesData;
 
         private MovementBuffer moveBuffer;
@@ -47,7 +47,7 @@ namespace Board
             if (data.controller.side == playerState.currentPlayer)
             {
                 EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
-                Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.controller.Model.PieceType);
+                Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceController);
                 foreach (KeyValuePair<Vector2, MoveType> pair in movements)
                 {
                     TilesData[pair.Key].ShowEffect(pair.Value);

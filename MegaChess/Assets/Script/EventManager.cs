@@ -9,7 +9,7 @@ namespace Core
     public class ChessClickEvent
     {
         public Vector2 gridPosition;
-        public PieceController controller;
+        public PieceController pieceController;
     }
 
     public class TileClickEvent
