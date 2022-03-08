@@ -9,6 +9,14 @@ namespace Pieces
         private Vector2 position;
         private PlayerSide side;
 
+        public PlayerSide Side
+        {
+            get { return side; }
+            set { side = value; }
+        }
+
+
+
         public void Configure(Vector2 position, PlayerSide side)
         {
             this.position = position;
@@ -23,7 +31,7 @@ namespace Pieces
 
             ChessClickEvent data = new ChessClickEvent();
             data.gridPosition = this.position;
-            data.pieceType = Model.PieceType;
+            data.pieceController = this;
 
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
         }
