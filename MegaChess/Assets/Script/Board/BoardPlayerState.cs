@@ -24,9 +24,14 @@ namespace Board
         internal void NextMove()
         {
             currentMoveCount += 1;
-            if(currentMoveCount >= ruleBook.movePerPlayer)
+
+            if (currentMoveCount >= ruleBook.movePerPlayer)
             {
-                currentPlayer += 1 % playerCount;
+                currentPlayer += 1;
+                if((int)currentPlayer >= playerCount)
+                {
+                    currentPlayer = PlayerSide.player1;
+                }
                 currentMoveCount = 0;
             }
         }

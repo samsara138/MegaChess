@@ -60,7 +60,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(position))
                     {
-                        if (boardController.PieceData[position].Side != pieceController.Side)
+                        if (boardController.PieceData[position].side != pieceController.side)
                         {
                             result.Add(position, MoveType.KillMove);
 
@@ -133,7 +133,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(position))
                     {
-                        if (boardController.PieceData[position].Side != pieceController.Side)
+                        if (boardController.PieceData[position].side != pieceController.side)
                         {
                             result.Add(position, MoveType.KillMove);
 
@@ -177,7 +177,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
                         }
@@ -197,7 +197,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
 
@@ -220,7 +220,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
 
@@ -241,7 +241,7 @@ namespace Pieces
                 {
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
 
@@ -275,7 +275,7 @@ namespace Pieces
                     // check if destination has pieces
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
                         }
@@ -303,7 +303,7 @@ namespace Pieces
                     // check if destination has pieces
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
                         }
@@ -328,7 +328,7 @@ namespace Pieces
                     // check if destination has pieces
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
                         }
@@ -353,7 +353,7 @@ namespace Pieces
                     // check if destination has pieces
                     if (boardController.PieceData.ContainsKey(testp))
                     {
-                        if (boardController.PieceData[testp].Side != pieceController.Side)
+                        if (boardController.PieceData[testp].side != pieceController.side)
                         {
                             result.Add(testp, MoveType.KillMove);
                         }

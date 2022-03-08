@@ -18,7 +18,6 @@ namespace Board
         public BoardPlayerState playerState;
         private ChessRuleBook ruleBook;
 
-
         public int Height => Model.Height;
         public int Width => Model.Width;
 
@@ -44,7 +43,7 @@ namespace Board
         {
             ChessClickEvent data = obj as ChessClickEvent;
 
-            if (data.controller.side == playerState.currentPlayer)
+            if (data.pieceController.side == playerState.currentPlayer)
             {
                 EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
                 Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceController);
@@ -52,7 +51,7 @@ namespace Board
                 {
                     TilesData[pair.Key].ShowEffect(pair.Value);
                 }
-                moveBuffer = new MovementBuffer(data.controller, movements);
+                moveBuffer = new MovementBuffer(data.pieceController, movements);
             }
             else
             {
