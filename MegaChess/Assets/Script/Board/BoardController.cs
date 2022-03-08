@@ -65,9 +65,9 @@ namespace Board
                             PieceData[data.gridPosition].OnKill();
 
                             PieceController buffer = moveBuffer.pieceController;
-                            buffer.MoveToPosition(PieceData[data.gridPosition].parentTile);
-
                             PieceData.Remove(moveBuffer.pieceController.position);
+
+                            buffer.MoveToPosition(PieceData[data.gridPosition].parentTile);
                             PieceData[data.gridPosition] = buffer;
 
                             moveBuffer = null;
@@ -77,9 +77,6 @@ namespace Board
                     }
                 }
             }
-
-
-
         }
 
         private void HandleTileClick(object obj)
@@ -95,10 +92,9 @@ namespace Board
                     {
                         PieceController buffer = moveBuffer.pieceController;
 
-                        buffer.MoveToPosition(data.controller);
-
                         PieceData.Remove(moveBuffer.pieceController.position);
                         PieceData[data.gridPosition] = buffer;
+                        buffer.MoveToPosition(data.controller);
 
                         moveBuffer = null;
                         EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);

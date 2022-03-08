@@ -45,7 +45,7 @@ namespace Pieces
         {
             Dictionary<Vector2, MoveType> result = new Dictionary<Vector2, MoveType>();
             List<Vector2> positions = new List<Vector2>();
-            positions.Add(new Vector2(piecePosition.x + 1, piecePosition.y+2));
+            positions.Add(new Vector2(piecePosition.x + 1, piecePosition.y + 2));
             positions.Add(new Vector2(piecePosition.x + 1, piecePosition.y - 2));
             positions.Add(new Vector2(piecePosition.x - 1, piecePosition.y + 2));
             positions.Add(new Vector2(piecePosition.x - 1, piecePosition.y - 2));
