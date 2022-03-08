@@ -7,14 +7,14 @@ namespace Tile
 {
     public class TileView : View
     {
-        [SerializeField]
-        private Image image;
-        private Color defaultColor;
+        [SerializeField] private Image image;
+
+        [SerializeField] private Button clickDetector;
+        public Button ClickDetector => clickDetector;
 
         public void Configure(TileModel model)
         {
-            defaultColor = model.tileColor;
-            image.color = defaultColor;
+            image.sprite = model.sprite;
         }
 
         public void ShowStepEffect(MoveType type)
@@ -28,7 +28,7 @@ namespace Tile
                     image.color = Color.red;
                     break;
                 case MoveType.NULL:
-                    image.color = defaultColor;
+                    image.color = Color.white;
                     break;
             }
         }

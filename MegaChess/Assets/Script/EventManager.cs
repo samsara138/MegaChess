@@ -1,7 +1,7 @@
 using Pieces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Tile;
 using UnityEngine;
 
 namespace Core
@@ -10,6 +10,12 @@ namespace Core
     {
         public Vector2 gridPosition;
         public PieceController pieceController;
+    }
+
+    public class TileClickEvent
+    {
+        public Vector2 gridPosition;
+        public TileController controller;
     }
 
     public static class EventManager
@@ -38,7 +44,10 @@ namespace Core
 
         public static void TriggerEvent(EventType type, object data = null)
         {
-            EventSystem[type]?.Invoke(data);
+            if (EventSystem.ContainsKey(type))
+                EventSystem[type]?.Invoke(data);
+            else
+                Debug.LogWarning("No subscriber for " + type);
         }
 
     }
@@ -46,6 +55,7 @@ namespace Core
     public enum EventType
     {
         ChessClickEvent = 0,
-        ClearTileEffectEvent = 1
+        TileClickEvent,
+        ClearTileEffectEvent
     }
 }

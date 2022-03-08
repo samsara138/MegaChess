@@ -335,13 +335,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27914b14baa1fd4428effdb5e52275a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 11400000, guid: 3ecf66f419bcb854885887f0c6f89501, type: 2}
+  boardModel: {fileID: 11400000, guid: 3ecf66f419bcb854885887f0c6f89501, type: 2}
   tileObj: {fileID: 9100613516924619691, guid: 2f957806c3f237746b12f4b66ac7e30d, type: 3}
   pieceObj: {fileID: 3475681306085746867, guid: 6c7eb19246edc02449f3595d4afe3ef1, type: 3}
-  BoardContainer: {fileID: 1628999679}
-  availableTiles:
-  - {fileID: 11400000, guid: c06e727cf8de9c9499541a36d23f2aae, type: 2}
-  - {fileID: 11400000, guid: fbf64e7b8b9f93348a3dcfab788078d4, type: 2}
+  boardContainer: {fileID: 1628999679}
+  ruleBook: {fileID: 11400000, guid: 6ec529a8fba858942843d9b5f9e98fbf, type: 2}
 --- !u!4 &798762545
 Transform:
   m_ObjectHideFlags: 0

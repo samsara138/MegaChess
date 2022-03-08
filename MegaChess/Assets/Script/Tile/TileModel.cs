@@ -10,7 +10,15 @@ namespace Tile
     {
         public static int tileLength = 100;
 
-        public Color tileColor;
-        // Maybe texture instead of color in the future
+        public Sprite sprite;
+
+        public TileType tileType;
+    }
+
+    public enum TileType
+    {
+        Null = 0,
+        Black,
+        White
     }
 }

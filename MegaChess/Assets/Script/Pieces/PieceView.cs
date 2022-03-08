@@ -1,5 +1,6 @@
 using Board;
 using Core;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,8 @@ namespace Pieces
     public class PieceView : View
     {
         [SerializeField] private Image image;
-        [SerializeField] private Button ClickDetector;
-        public Button GetClickDetector => ClickDetector;
+        [SerializeField] private Button clickDetector;
+        public Button ClickDetector => clickDetector;
 
         public void Configure(PieceModel model,PlayerSide side)
         {
@@ -22,6 +23,17 @@ namespace Pieces
                     image.sprite = model.BlackSprite;
                     break;
             }
+        }
+
+        public void OnKill()
+        {
+            Destroy(gameObject);
+        }
+
+        internal void MoveToPosition(Transform tileTransform)
+        {
+            transform.SetParent(tileTransform);
+            transform.localPosition = Vector3.zero;
         }
     }
 }

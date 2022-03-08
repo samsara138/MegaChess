@@ -157,7 +157,7 @@ MonoBehaviour:
   - x: 3
     y: 3
     side: 0
-    piece: {fileID: 0}
+    piece: {fileID: 11400000, guid: 5067e6726bf36444ea7eb3b22f73c9a7, type: 2}
     tileModel: {fileID: 11400000, guid: c06e727cf8de9c9499541a36d23f2aae, type: 2}
   - x: 4
     y: 3
@@ -241,8 +241,8 @@ MonoBehaviour:
     tileModel: {fileID: 11400000, guid: c06e727cf8de9c9499541a36d23f2aae, type: 2}
   - x: 4
     y: 5
-    side: 0
-    piece: {fileID: 0}
+    side: 1
+    piece: {fileID: 11400000, guid: 5067e6726bf36444ea7eb3b22f73c9a7, type: 2}
     tileModel: {fileID: 11400000, guid: fbf64e7b8b9f93348a3dcfab788078d4, type: 2}
   - x: 5
     y: 5
