@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e360f1d2a29a1842a93b4cf43ed51cd, type: 3}
+  m_Name: Rook
+  m_EditorClassIdentifier: 
+  ModelName: Rook
+  WhiteSpirte: {fileID: 21300000, guid: 8e31a1bbec372a446ab214d50ed124da, type: 3}
+  BlackSprite: {fileID: 21300000, guid: 9d9fd049059f7944fb665b7cf9b21536, type: 3}
+  PieceType: 3

@@ -10,7 +10,7 @@ namespace Board
 {
     public class BoardController : Controller<BoardModel, BoardView>
     {
-        private Dictionary<Vector2, PieceController> PieceData;
+        public Dictionary<Vector2, PieceController> PieceData;
         private Dictionary<Vector2, TileController> TilesData;
 
         public int Height => Model.Height;
@@ -36,7 +36,7 @@ namespace Board
             EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
             ChessClickEvent data = obj as ChessClickEvent;
 
-            Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceType);
+            Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceController);
             foreach(KeyValuePair<Vector2,MoveType> pair in movements)
             {
                 TilesData[pair.Key].ShowEffect(pair.Value);
