@@ -28,7 +28,6 @@ namespace Board
     {
         private void InitStandardBoard()
         {
-
             boardSettings = new List<TileSetting>();
             for (int i = 0; i < Height; i++)
             {

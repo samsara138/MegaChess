@@ -376,6 +376,7 @@ namespace Pieces
         //Move without any further action
         NormalMove = 1,
         //Move and kill the piece
-        KillMove
+        KillMove,
+        CurrentPosition
     }
 }
