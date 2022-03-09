@@ -52,7 +52,7 @@ MonoBehaviour:
   - x: 6
     y: 7
     side: 1
-    piece: {fileID: 11400000, guid: 13b154387bf8a0a4096a313f59f221f0, type: 2}
+    piece: {fileID: 11400000, guid: 5067e6726bf36444ea7eb3b22f73c9a7, type: 2}
     tileModel: {fileID: 11400000, guid: fbf64e7b8b9f93348a3dcfab788078d4, type: 2}
   - x: 7
     y: 7
