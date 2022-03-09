@@ -47,6 +47,8 @@ namespace Board
             {
                 EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
                 Dictionary<Vector2, MoveType> movements = PieceMovement.GetMovement(data.gridPosition, this, data.pieceController);
+                TilesData[data.gridPosition].ShowEffect(MoveType.CurrentPosition);
+
                 foreach (KeyValuePair<Vector2, MoveType> pair in movements)
                 {
                     TilesData[pair.Key].ShowEffect(pair.Value);

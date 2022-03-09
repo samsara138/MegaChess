@@ -27,6 +27,9 @@ namespace Tile
                 case MoveType.KillMove:
                     image.color = Color.red;
                     break;
+                case MoveType.CurrentPosition:
+                    image.color = Color.yellow;
+                    break;
                 case MoveType.NULL:
                     image.color = Color.white;
                     break;

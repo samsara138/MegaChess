@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e360f1d2a29a1842a93b4cf43ed51cd, type: 3}
   m_Name: King
   m_EditorClassIdentifier: 
-  ModelName: 
-  WhiteSpirte: {fileID: 0}
-  BlackSprite: {fileID: 0}
-  PieceType: 0
+  ModelName: King
+  WhiteSpirte: {fileID: 21300000, guid: 8ed02bb332d254d4886597a66df4b5b6, type: 3}
+  BlackSprite: {fileID: 21300000, guid: 8132c48e6b0ffbe478d060b6f9e01e26, type: 3}
+  PieceType: 1
