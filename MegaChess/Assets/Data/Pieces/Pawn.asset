@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e360f1d2a29a1842a93b4cf43ed51cd, type: 3}
-  m_Name: Bishop
+  m_Name: Pawn
   m_EditorClassIdentifier: 
-  ModelName: Bishop
-  WhiteSpirte: {fileID: 21300000, guid: 81dd314eed51fe34a8ec804195b00958, type: 3}
-  BlackSprite: {fileID: 21300000, guid: db6e8bcc1723f4a45b8fce40ae05e7a6, type: 3}
-  PieceType: 4
+  ModelName: Pawn
+  WhiteSpirte: {fileID: 21300000, guid: 0950249d3cc4e304aa494b850f8d5b8e, type: 3}
+  BlackSprite: {fileID: 21300000, guid: a8bb4712da2f1e549a3844229a1b70f6, type: 3}
+  PieceType: 6

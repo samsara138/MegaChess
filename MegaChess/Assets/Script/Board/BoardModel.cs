@@ -28,17 +28,31 @@ namespace Board
     {
         private void InitStandardBoard()
         {
-            boardSettings = new List<TileSetting>();
-            for (int i = 0; i < Height; i++)
+            if (boardSettings == null)
             {
-                for (int j = 0; j < Width; j++)
+                boardSettings = new List<TileSetting>();
+                for (int i = 0; i < Height; i++)
                 {
-                    TileSetting setting = new TileSetting(j, i);
+                    for (int j = 0; j < Width; j++)
+                    {
+                        TileSetting setting = new TileSetting(j, i);
 
-                    int buffer = (i + j) % 2;
-                    setting.tileModel = DebugTiles[buffer];
+                        int buffer = (i + j) % 2;
+                        setting.tileModel = DebugTiles[buffer];
 
-                    boardSettings.Add(setting);
+                        boardSettings.Add(setting);
+                    }
+                }
+            }
+            else
+            {
+                foreach(TileSetting setting in boardSettings)
+                {
+                    if(setting.tileModel == null)
+                    {
+                        int buffer = (setting.x + setting.y) % 2;
+                        setting.tileModel = DebugTiles[buffer];
+                    }
                 }
             }
         }

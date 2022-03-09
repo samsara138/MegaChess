@@ -36,9 +36,15 @@ namespace Pieces
                 case PieceType.Knight:
                     return CalcKnight(piecePosition, boardController, pieceController);
                 case PieceType.Pawn:
-                    break;
+                    return CalcPawn(piecePosition, boardController, pieceController);
             }
             return null;
+        }
+
+        private static Dictionary<Vector2, MoveType> CalcPawn(Vector2 piecePosition, BoardController boardController, PieceController pieceController)
+        {
+            Dictionary<Vector2, MoveType> result = new Dictionary<Vector2, MoveType>();
+            return result;
         }
 
         private static Dictionary<Vector2, MoveType> CalcKnight(Vector2 piecePosition, BoardController boardController, PieceController pieceController)
