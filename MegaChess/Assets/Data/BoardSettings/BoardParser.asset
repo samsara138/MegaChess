@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c46f0e8e396834fa8eb5b9d2fceccc, type: 3}
   m_Name: BoardParser
   m_EditorClassIdentifier: 
-  TextFile: {fileID: 4900000, guid: 1ceb56ba84a1a9540bff69532e6cf05c, type: 3}
+  TextFile: {fileID: 4900000, guid: faf2069b8ca0ffd42945944a1eaaa7d7, type: 3}
   OutputPath: Assets/Data/BoardSettings
-  OutputName: NormalBoard
+  OutputName: MegaChessV1
   KingModel: {fileID: 11400000, guid: 13b154387bf8a0a4096a313f59f221f0, type: 2}
   QueenModel: {fileID: 11400000, guid: 8b3e8b766b0f7b74bbff6a8c021183fb, type: 2}
   RookModel: {fileID: 11400000, guid: b7fa6023879c980459227b5abc50918f, type: 2}

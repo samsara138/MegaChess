@@ -15,6 +15,7 @@ namespace Tile
         public void Configure(TileModel model)
         {
             image.sprite = model.sprite;
+            gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalParameters.TILE_LENGTH, GlobalParameters.TILE_LENGTH);
         }
 
         public void ShowStepEffect(MoveType type)

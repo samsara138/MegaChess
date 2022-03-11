@@ -8,10 +8,7 @@ namespace Tile
     [CreateAssetMenu(fileName = "TileModel", menuName = "Mega Chess/Tile Model")]
     public class TileModel : Model
     {
-        public static int tileLength = 100;
-
         public Sprite sprite;
-
         public TileType tileType;
     }
 

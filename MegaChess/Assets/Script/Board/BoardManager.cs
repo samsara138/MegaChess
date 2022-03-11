@@ -9,10 +9,13 @@ namespace Board
     public class BoardManager : MonoBehaviour
     {
         [SerializeField] private BoardModel boardModel;
+        [SerializeField] private ChessRuleBook ruleBook;
+
+        [Space]
+
         [SerializeField] private GameObject tileObj;
         [SerializeField] private GameObject pieceObj;
         [SerializeField] private Transform boardContainer;
-        [SerializeField] private ChessRuleBook ruleBook;
 
         private BoardController controller;
 
