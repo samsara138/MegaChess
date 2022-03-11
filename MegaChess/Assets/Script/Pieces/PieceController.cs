@@ -12,6 +12,8 @@ namespace Pieces
         public PlayerSide side;
         public TileController parentTile;
 
+        public bool moved;
+
         public void Configure(Vector2 position, PlayerSide side, TileController parentTile)
         {
             this.position = position;
@@ -20,6 +22,7 @@ namespace Pieces
             View.ClickDetector.onClick.AddListener(OnClick);
             this.parentTile = parentTile;
             parentTile.childPiece = this;
+            moved = false;
         }
 
         public void OnClick()
@@ -33,13 +36,13 @@ namespace Pieces
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
         }
 
-        public void OnKill()
+        public void OnKilled()
         {
             parentTile.childPiece = null;
             View.OnKill();
         }
 
-        internal void MoveToPosition(TileController tileContrller)
+        public void MoveToPosition(TileController tileContrller)
         {
             parentTile.childPiece = null;
             parentTile = tileContrller;
@@ -47,6 +50,8 @@ namespace Pieces
 
             View.MoveToPosition(parentTile.View.gameObject.transform);
             position = tileContrller.gridPosition;
+
+            moved = true;
         }
     }
 }

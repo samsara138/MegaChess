@@ -11,13 +11,14 @@ namespace Board
         {
             int Width = BoardManager.boardWidth;
             int Height = BoardManager.boardHeight;
-            float tileLength = TileModel.tileLength;
+            float tileLength = GlobalParameters.TILE_LENGTH;
 
-            Vector2 position = new Vector2(postion.x * tileLength, postion.y * tileLength);
+            Vector2 realPosition = new Vector2(postion.x * tileLength, postion.y * tileLength);
             Vector2 positionOffet = new Vector2((Width - 1) * (tileLength / 2),
                                                (Height - 1) * (tileLength / 2));
-            position -= positionOffet;
-            return position;
+
+            realPosition -= positionOffet;
+            return realPosition;
         }
     }
 }

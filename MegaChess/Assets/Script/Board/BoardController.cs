@@ -64,7 +64,7 @@ namespace Board
                     {
                         if (moveType == MoveType.KillMove)
                         {
-                            PieceData[data.gridPosition].OnKill();
+                            PieceData[data.gridPosition].OnKilled();
 
                             PieceController buffer = moveBuffer.pieceController;
                             PieceData.Remove(moveBuffer.pieceController.position);

@@ -23,6 +23,7 @@ namespace Pieces
                     image.sprite = model.BlackSprite;
                     break;
             }
+            gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalParameters.TILE_LENGTH, GlobalParameters.TILE_LENGTH);
         }
 
         public void OnKill()

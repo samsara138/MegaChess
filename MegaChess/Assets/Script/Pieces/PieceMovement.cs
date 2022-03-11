@@ -44,6 +44,37 @@ namespace Pieces
         private static Dictionary<Vector2, MoveType> CalcPawn(Vector2 piecePosition, BoardController boardController, PieceController pieceController)
         {
             Dictionary<Vector2, MoveType> result = new Dictionary<Vector2, MoveType>();
+
+            Vector2 directionAdj = Vector2.one;
+            directionAdj.y = pieceController.side == PlayerSide.player1 ? 1 : -1;
+
+
+            Vector2 b1 = piecePosition + new Vector2(0, 1) * directionAdj;
+            if (!boardController.PieceData.ContainsKey(b1))
+            {
+                result.Add(b1, MoveType.NormalMove);
+                if (!pieceController.moved)
+                {
+                    Vector2 b2 = piecePosition + new Vector2(0, 2) * directionAdj;
+                    if (!boardController.PieceData.ContainsKey(b2))
+                    {
+                        result.Add(b2, MoveType.NormalMove);
+                    }
+                }
+            }
+
+            b1 = new Vector2(piecePosition.x, piecePosition.y) + new Vector2(1, 1) * directionAdj;
+            if(boardController.PieceData.ContainsKey(b1) && boardController.PieceData[b1].side != pieceController.side)
+            {
+                result.Add(b1, MoveType.KillMove);
+            }
+
+            b1 = new Vector2(piecePosition.x, piecePosition.y) + new Vector2(-1, 1) * directionAdj;
+            if (boardController.PieceData.ContainsKey(b1) && boardController.PieceData[b1].side != pieceController.side)
+            {
+                result.Add(b1, MoveType.KillMove);
+            }
+
             return result;
         }
 
@@ -161,7 +192,7 @@ namespace Pieces
              * 2) dest blocked by pieces on the same side
              */
 
-            if (dest.x > boardcontroller.Width || dest.x < 0 || dest.y > boardcontroller.Height || dest.y < 0)
+            if (dest.x >= boardcontroller.Width || dest.x < 0 || dest.y >= boardcontroller.Height || dest.y < 0)
             {
                 return false;
             }
