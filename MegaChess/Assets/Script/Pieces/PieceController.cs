@@ -8,7 +8,7 @@ namespace Pieces
 {
     public class PieceController : Controller<PieceModel,PieceView>
     {
-        public Vector2 position;
+        public Vector2 gridPosition;
         public PlayerSide side;
         public TileController parentTile;
 
@@ -16,7 +16,7 @@ namespace Pieces
 
         public void Configure(Vector2 position, PlayerSide side, TileController parentTile)
         {
-            this.position = position;
+            this.gridPosition = position;
             this.side = side;
             View.Configure(Model,side);
             View.ClickDetector.onClick.AddListener(OnClick);
@@ -27,10 +27,12 @@ namespace Pieces
 
         public void OnClick()
         {
-            Debug.Log("Click on " + Model.ModelName + " of player " + side + " at position " + position);
+            TextData textData = new TextData();
+            textData.text = ("Click on " + Model.ModelName + " of player " + side + " at position " + gridPosition);
+            EventManager.TriggerEvent(Core.EventType.NewTextMessageEvent, textData);
 
             ChessClickEvent data = new ChessClickEvent();
-            data.gridPosition = this.position;
+            data.gridPosition = this.gridPosition;
             data.pieceController = this;
 
             EventManager.TriggerEvent(Core.EventType.ChessClickEvent, data);
@@ -49,7 +51,7 @@ namespace Pieces
             parentTile.childPiece = this;
 
             View.MoveToPosition(parentTile.View.gameObject.transform);
-            position = tileContrller.gridPosition;
+            gridPosition = tileContrller.gridPosition;
 
             moved = true;
         }

@@ -1,14 +1,17 @@
 using Core;
+using ExitGames.Client.Photon;
+using Networking;
+using Photon.Pun;
+using Photon.Realtime;
 using Pieces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tile;
 using UnityEngine;
 
 namespace Board
 {
-    public class BoardController : Controller<BoardModel, BoardView>
+    public class BoardController : Controller<BoardModel, BoardView>, IOnEventCallback
     {
         public Dictionary<Vector2, PieceController> PieceData;
         private Dictionary<Vector2, TileController> TilesData;
@@ -16,7 +19,6 @@ namespace Board
         private MovementBuffer moveBuffer;
 
         public BoardPlayerState playerState;
-        private ChessRuleBook ruleBook;
 
         public int Height => Model.Height;
         public int Width => Model.Width;
@@ -27,7 +29,8 @@ namespace Board
             EventManager.SubscribeToEvent(Core.EventType.ChessClickEvent, HandlePieceClick);
             EventManager.SubscribeToEvent(Core.EventType.TileClickEvent, HandleTileClick);
             playerState = new BoardPlayerState(ruleBook);
-            this.ruleBook = ruleBook;
+            PhotonNetwork.AddCallbackTarget(this);
+
         }
 
         public void UnBind()
@@ -37,7 +40,11 @@ namespace Board
             {
                 tileController.UnBind();
             }
+            PhotonNetwork.RemoveCallbackTarget(this);
+
         }
+
+        #region Game Events
 
         private void HandlePieceClick(object obj)
         {
@@ -64,17 +71,10 @@ namespace Board
                     {
                         if (moveType == MoveType.KillMove)
                         {
-                            PieceData[data.gridPosition].OnKilled();
-
-                            PieceController buffer = moveBuffer.pieceController;
-                            PieceData.Remove(moveBuffer.pieceController.position);
-
-                            buffer.MoveToPosition(PieceData[data.gridPosition].parentTile);
-                            PieceData[data.gridPosition] = buffer;
-
-                            moveBuffer = null;
-                            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
-                            playerState.NextMove();
+                            Vector2 origLoc = moveBuffer.pieceController.gridPosition;
+                            Vector2 destLoc = data.gridPosition;
+                            KillMoveEvent moveEvent = new KillMoveEvent(origLoc, destLoc);
+                            moveEvent.Invoke();
                         }
                     }
                 }
@@ -92,21 +92,64 @@ namespace Board
                 {
                     if (moveType == MoveType.NormalMove)
                     {
-                        PieceController buffer = moveBuffer.pieceController;
-
-                        PieceData.Remove(moveBuffer.pieceController.position);
-                        PieceData[data.gridPosition] = buffer;
-                        buffer.MoveToPosition(data.controller);
-
-                        moveBuffer = null;
-                        EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
-                        playerState.NextMove();
+                        Vector2 origLoc = moveBuffer.pieceController.gridPosition;
+                        Vector2 destLoc = data.controller.gridPosition;
+                        NormalMoveEvent moveEvent = new NormalMoveEvent(origLoc, destLoc);
+                        moveEvent.Invoke();
                     }
                 }
             }
         }
 
-        #region creating board
+        #endregion
+
+        #region Photon Events
+
+        public void OnEvent(EventData photonEvent)
+        {
+            PunEvent eventType = (PunEvent)(int)photonEvent.Code;
+            switch (eventType)
+            {
+                case PunEvent.NormalMoveEvent:
+                    NormalMoveEvent normalMoveData = new NormalMoveEvent(photonEvent);
+                    ExecuteNormalMove(normalMoveData);
+                    break;
+                case PunEvent.KillMoveEvent:
+                    KillMoveEvent killMoveData = new KillMoveEvent(photonEvent);
+                    ExecuteKillMove(killMoveData);
+                    break;
+            }
+        }
+
+        private void ExecuteKillMove(MoveEventData data)
+        {
+            PieceData[data.destLoc].OnKilled();
+
+            PieceController buffer = PieceData[data.origLoc];
+            PieceData.Remove(data.origLoc);
+
+            buffer.MoveToPosition(PieceData[data.destLoc].parentTile);
+            PieceData[data.destLoc] = buffer;
+
+            moveBuffer = null;
+            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+            playerState.NextMove();
+        }
+
+        private void ExecuteNormalMove(MoveEventData data)
+        {
+            PieceController buffer = PieceData[data.origLoc];
+            PieceData.Remove(data.origLoc);
+            buffer.MoveToPosition(TilesData[data.destLoc]);
+            PieceData[data.destLoc] = buffer;
+            moveBuffer = null;
+            EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
+            playerState.NextMove();
+        }
+
+        #endregion
+
+        #region Creating board
 
         /// <summary>
         /// Spawn the tile grid
@@ -122,6 +165,7 @@ namespace Board
             {
                 Vector2 gridPosition = new Vector2(setting.x, setting.y);
                 Vector2 position = BoardHelperFunctions.GetRealPosition(gridPosition);
+
                 GameObject bufferObj = GameObject.Instantiate(tileObj, position, Quaternion.identity, boardTransform);
 
                 TileController tileBuffer = new TileController();
@@ -145,8 +189,7 @@ namespace Board
                     Vector2 position = BoardHelperFunctions.GetRealPosition(gridPosition);
 
                     Transform tileTransform = TilesData[gridPosition].View.transform;
-                    GameObject bufferObj = GameObject.Instantiate(pieceObj, position,
-                            Quaternion.identity, tileTransform);
+                    GameObject bufferObj = GameObject.Instantiate(pieceObj, position, Quaternion.identity, tileTransform);
 
                     PieceController pieceBuffer = new PieceController();
                     pieceBuffer.Intialize(setting.piece);
@@ -157,6 +200,6 @@ namespace Board
             }
         }
 
-        #endregion creating board
+        #endregion
     }
 }
