@@ -6,6 +6,15 @@ using UnityEngine;
 
 namespace Core
 {
+    public enum EventType
+    {
+        ChessClickEvent = 0,
+        TileClickEvent,
+        ClearTileEffectEvent,
+        NewTextMessageEvent,
+        PlayerJoinRoomEvent
+    }
+
     public class ChessClickEvent
     {
         public Vector2 gridPosition;
@@ -16,6 +25,12 @@ namespace Core
     {
         public Vector2 gridPosition;
         public TileController controller;
+    }
+
+    public class TextData
+    {
+        public List<string> textList;
+        public string text;
     }
 
     public static class EventManager
@@ -49,13 +64,5 @@ namespace Core
             else
                 Debug.LogWarning("No subscriber for " + type);
         }
-
-    }
-
-    public enum EventType
-    {
-        ChessClickEvent = 0,
-        TileClickEvent,
-        ClearTileEffectEvent
     }
 }

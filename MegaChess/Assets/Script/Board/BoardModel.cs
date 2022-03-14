@@ -28,7 +28,7 @@ namespace Board
     {
         private void InitStandardBoard()
         {
-            if (boardSettings == null)
+            if (boardSettings == null || boardSettings.Count == 0)
             {
                 boardSettings = new List<TileSetting>();
                 for (int i = 0; i < Height; i++)

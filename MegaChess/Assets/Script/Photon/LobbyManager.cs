@@ -1,8 +1,11 @@
+using Networking;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,33 +47,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach(KeyValuePair<string,RoomInfo> pair in cachedRoomList)
         {
             GameObject bufferObj = GameObject.Instantiate(RoomPanel, PanelTransform);
-            bufferObj.GetComponent<TextMeshProUGUI>().text = pair.Key;
+            RoomPanelHandler panel = bufferObj.GetComponent<RoomPanelHandler>();
+            panel.Initialize(pair.Key);
         }
-
-
     }
 
     private void Start()
     {
-        CreateRoomBtn.onClick.AddListener(CreateRoom);
-        JoinRoomBtn.onClick.AddListener(JoinRoom);
+        CreateRoomBtn.onClick.AddListener(OnClickCreateRoom);
+        JoinRoomBtn.onClick.AddListener(OnClickJoinRoom);
         cachedRoomList.Clear();
 
     }
 
-    public void CreateRoom()
+    private void OnClickCreateRoom()
     {
-        PhotonNetwork.CreateRoom(CreateRoomField.text);
+        NetworkManager.Instance.CreateRoom(CreateRoomField.text);
     }
 
-    public void JoinRoom()
+    private void OnClickJoinRoom()
     {
-        PhotonNetwork.JoinRoom(JoinRoomField.text);
-    }
-
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Joined room " + PhotonNetwork.CurrentRoom.Name);
-        PhotonNetwork.LoadLevel("2.Chess");
+        NetworkManager.Instance.JoinRoom(JoinRoomField.text);
     }
 }

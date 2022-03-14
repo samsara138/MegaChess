@@ -1,4 +1,6 @@
 using Core;
+using Networking;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Tile;
@@ -15,19 +17,16 @@ namespace Board
 
         [SerializeField] private GameObject tileObj;
         [SerializeField] private GameObject pieceObj;
+
         [SerializeField] private Transform boardContainer;
 
         private BoardController controller;
 
-        public static int boardWidth;
-        public static int boardHeight;
-
-
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            boardWidth = boardModel.Width;
-            boardHeight = boardModel.Height;
+            GlobalParameters.BOARD_HEIGHT = boardModel.Height;
+            GlobalParameters.BOARD_WIDTH = boardModel.Width;
 
             controller = new BoardController();
             controller.Intialize(boardModel);
@@ -36,12 +35,12 @@ namespace Board
             controller.CreateTiles(tileObj, boardContainer);
             controller.CreatePieces(pieceObj);
             EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
-
         }
+
 
         private void OnDestroy()
         {
-            if(controller != null) { controller.UnBind(); }
+            if (controller != null) { controller.UnBind(); }
         }
     }
 }

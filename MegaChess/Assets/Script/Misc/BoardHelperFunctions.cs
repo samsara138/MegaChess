@@ -9,8 +9,8 @@ namespace Board
     {
         public static Vector2 GetRealPosition(Vector2 postion)
         {
-            int Width = BoardManager.boardWidth;
-            int Height = BoardManager.boardHeight;
+            int Width = GlobalParameters.BOARD_WIDTH;
+            int Height = GlobalParameters.BOARD_HEIGHT;
             float tileLength = GlobalParameters.TILE_LENGTH;
 
             Vector2 realPosition = new Vector2(postion.x * tileLength, postion.y * tileLength);
