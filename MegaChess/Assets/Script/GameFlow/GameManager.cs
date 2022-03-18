@@ -12,8 +12,17 @@ namespace GameFlow
     public enum GameState
     {
         InitState,
+        ConnectingState,
         LobbyMenu,
         GameMenu
+    }
+
+    public enum GameScenes
+    {
+        MainMenu = 0,
+        BootStrap,
+        Lobby,
+        Chess
     }
 
     public class GameManager : MonoBehaviour
@@ -61,7 +70,9 @@ namespace GameFlow
             switch (newState)
             {
                 case GameState.InitState:
-                    HandleInitState();
+                    break;
+                case GameState.ConnectingState:
+                    HandleConnectingState();
                     break;
                 case GameState.LobbyMenu:
                     HandleLobbyState();
@@ -74,38 +85,26 @@ namespace GameFlow
             }
         }
 
-        private void HandleInitState()
+        private void HandleConnectingState()
         {
+            SceneManager.LoadScene((int)GameScenes.BootStrap);
             networkManager.ConnectToServer();
         }
 
         private void HandleLobbyState()
         {
-            SceneManager.LoadScene("1.Lobby");
+            SceneManager.LoadScene((int)GameScenes.Lobby);
         }
 
         private void HandleGameState()
         {
-            PhotonNetwork.LoadLevel("2.Chess");
-            StartCoroutine("WaitForLoad");
+            PhotonNetwork.LoadLevel((int)GameScenes.Chess);
         }
 
-        private IEnumerator WaitForLoad()
+        private void Log(string msg)
         {
-            while (PhotonNetwork.LevelLoadingProgress < 1f)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-            OnLevelLoad();
-        }
-
-        private void OnLevelLoad()
-        {
-        }
-
-        private void Log(string log)
-        {
-            Debug.Log("<b><color=#00FFFF>GameManager</color></b> " + log);
+            if(GlobalParameters.GAME_MANAGER_DEBUG)
+                Debug.Log("<b><color=#00FFFF>GameManager</color></b> " + msg);
         }
     }
 }
