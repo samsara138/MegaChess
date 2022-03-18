@@ -49,9 +49,8 @@ namespace Pieces
         private IEnumerator Transition(Vector3 moveVector, Transform tileTransform)
         {
             float[] steps = CreateAnimationSteps(movementCurve, GlobalParameters.PIECE_MOVE_STEPS);
-            for (short i = 0; i < GlobalParameters.PIECE_MOVE_STEPS; i++)
+            for (short i = 0; i < steps.Length; i++)
             {
-                Debug.Log(steps[i]);
                 transform.Translate(moveVector * steps[i]);
                 yield return new WaitForEndOfFrame();
             }
