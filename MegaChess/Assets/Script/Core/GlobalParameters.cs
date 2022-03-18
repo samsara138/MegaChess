@@ -8,4 +8,6 @@ public class GlobalParameters
 
     public static int BOARD_WIDTH;
     public static int BOARD_HEIGHT;
+
+    public static int PIECE_MOVE_STEPS = 30;
 }

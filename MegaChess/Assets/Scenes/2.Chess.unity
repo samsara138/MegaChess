@@ -1197,12 +1197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27914b14baa1fd4428effdb5e52275a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardModel: {fileID: 11400000, guid: c59fd842ecd467444a74a0a670b9d1a4, type: 2}
-  ruleBook: {fileID: 11400000, guid: 6ec529a8fba858942843d9b5f9e98fbf, type: 2}
+  boardModel: {fileID: 11400000, guid: c5e46af824aa466409b963dcac80ba1c, type: 2}
+  ruleBook: {fileID: 11400000, guid: a3828952c8e28da44ae6d920b3ac29ef, type: 2}
   tileObj: {fileID: 9100613516924619691, guid: 2f957806c3f237746b12f4b66ac7e30d, type: 3}
   pieceObj: {fileID: 3475681306085746867, guid: 6c7eb19246edc02449f3595d4afe3ef1, type: 3}
   boardContainer: {fileID: 7758438220274011660}
-  photonView: {fileID: 7758438220274011773}
 --- !u!114 &7758438220274011766
 MonoBehaviour:
   m_ObjectHideFlags: 0
