@@ -45,5 +45,11 @@ namespace Tile
         {
             View.ShowStepEffect(type);
         }
+
+        private void Log(string msg)
+        {
+            if (GlobalParameters.CHESS_BASIC_DEBUG)
+                Debug.Log("<b><color=#785223>Tile</color></b> " + msg);
+        }
     }
 }

@@ -129,9 +129,10 @@ namespace Networking
 
         #endregion
 
-        private void Log(string log)
+        private void Log(string msg)
         {
-            Debug.Log("<b><color=#FF5CFF>NetworkManager</color></b> " + log);
+            if(GlobalParameters.NETWORK_MANAGER_DEBUG)
+                Debug.Log("<b><color=#FF5CFF>NetworkManager</color></b> " + msg);
         }
     }
 }
