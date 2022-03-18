@@ -35,18 +35,18 @@ namespace Pieces
             Destroy(gameObject);
         }
 
-        public void MoveToPosition(Transform tileTransform)
+        public void MoveToPosition(Transform tileTransform, PieceController killedPiece = null)
         {
             transform.SetParent(transform.parent.parent.parent, true);
             transform.SetAsLastSibling();
 
             Vector3 diff = tileTransform.position - transform.position;
 
-            IEnumerator corountine = Transition(diff, tileTransform);
+            IEnumerator corountine = Transition(diff, tileTransform, killedPiece);
             StartCoroutine(corountine);
         }
 
-        private IEnumerator Transition(Vector3 moveVector, Transform tileTransform)
+        private IEnumerator Transition(Vector3 moveVector, Transform tileTransform, PieceController killedPiece)
         {
             float[] steps = CreateAnimationSteps(movementCurve, GlobalParameters.PIECE_MOVE_STEPS);
             for (short i = 0; i < steps.Length; i++)
@@ -54,6 +54,8 @@ namespace Pieces
                 transform.Translate(moveVector * steps[i]);
                 yield return new WaitForEndOfFrame();
             }
+
+            killedPiece?.OnKilled();
             transform.SetParent(tileTransform, true);
         }
 

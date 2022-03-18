@@ -123,14 +123,10 @@ namespace Board
 
         private void ExecuteKillMove(MoveEventData data)
         {
-            PieceData[data.destLoc].OnKilled();
-
             PieceController buffer = PieceData[data.origLoc];
             PieceData.Remove(data.origLoc);
-
-            buffer.MoveToPosition(PieceData[data.destLoc].parentTile);
+            buffer.MoveToPosition(PieceData[data.destLoc].parentTile, PieceData[data.destLoc]);
             PieceData[data.destLoc] = buffer;
-
             moveBuffer = null;
             EventManager.TriggerEvent(Core.EventType.ClearTileEffectEvent);
             playerState.NextMove();

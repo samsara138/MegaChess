@@ -44,13 +44,13 @@ namespace Pieces
             View.OnKill();
         }
 
-        public void MoveToPosition(TileController tileContrller)
+        public void MoveToPosition(TileController tileContrller, PieceController killedPiece = null)
         {
             parentTile.childPiece = null;
             parentTile = tileContrller;
             parentTile.childPiece = this;
 
-            View.MoveToPosition(parentTile.View.gameObject.transform);
+            View.MoveToPosition(parentTile.View.gameObject.transform, killedPiece);
             gridPosition = tileContrller.gridPosition;
 
             moved = true;
