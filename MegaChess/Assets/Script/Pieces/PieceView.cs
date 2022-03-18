@@ -1,6 +1,8 @@
 using Board;
 using Core;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +12,11 @@ namespace Pieces
     {
         [SerializeField] private Image image;
         [SerializeField] private Button clickDetector;
+        [SerializeField] private AnimationCurve movementCurve;
+
         public Button ClickDetector => clickDetector;
 
-        public void Configure(PieceModel model,PlayerSide side)
+        public void Configure(PieceModel model, PlayerSide side)
         {
             switch (side)
             {
@@ -31,10 +35,46 @@ namespace Pieces
             Destroy(gameObject);
         }
 
-        internal void MoveToPosition(Transform tileTransform)
+        public void MoveToPosition(Transform tileTransform)
         {
-            transform.SetParent(tileTransform);
-            transform.localPosition = Vector3.zero;
+            transform.SetParent(transform.parent.parent.parent, true);
+            transform.SetAsLastSibling();
+
+            Vector3 diff = tileTransform.position - transform.position;
+
+            IEnumerator corountine = Transition(diff, tileTransform);
+            StartCoroutine(corountine);
+        }
+
+        private IEnumerator Transition(Vector3 moveVector, Transform tileTransform)
+        {
+            float[] steps = CreateAnimationSteps(movementCurve, GlobalParameters.PIECE_MOVE_STEPS);
+            for (short i = 0; i < steps.Length; i++)
+            {
+                transform.Translate(moveVector * steps[i]);
+                yield return new WaitForEndOfFrame();
+            }
+            transform.SetParent(tileTransform, true);
+        }
+
+        private float[] CreateAnimationSteps(AnimationCurve curve, int steps)
+        {
+            float[] samples = new float[steps];
+            float stepSize = (curve.keys[curve.keys.Length - 1].time) / steps;
+            float sum = 0;
+            float currStep = 0;
+
+            for (short i = 0; i < steps; i++)
+            {
+                samples[i] = curve.Evaluate(currStep);
+                sum += samples[i];
+                currStep += stepSize;
+            }
+            for (short i = 0; i < steps; i++)
+            {
+                samples[i] /= sum;
+            }
+            return samples;
         }
     }
 }
