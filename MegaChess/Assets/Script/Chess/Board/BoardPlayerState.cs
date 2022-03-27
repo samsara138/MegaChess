@@ -9,10 +9,10 @@ namespace Board
     {
         public PlayerSide currentPlayer;
         public int currentMoveCount;
-        private ChessRuleBook ruleBook;
+        private ChessRuleBookModel ruleBook;
         private int playerCount;
 
-        public BoardPlayerState(ChessRuleBook ruleBook, int playerCount = 2)
+        public BoardPlayerState(ChessRuleBookModel ruleBook, int playerCount = 2)
         {
             this.ruleBook = ruleBook;
             this.playerCount = playerCount;

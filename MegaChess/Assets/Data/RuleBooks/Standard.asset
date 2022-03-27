@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcae94c28f4af0c4f816a6ab132b1d88, type: 3}
-  m_Name: MegaRuleBook
+  m_Script: {fileID: 11500000, guid: 65cfc31c7d63974419fc5f7e4413f886, type: 3}
+  m_Name: Standard
   m_EditorClassIdentifier: 
-  movePerPlayer: 4
+  ModelName: Stanrd Rulebook
+  movePerPlayer: 1
   firstPlayer: 0

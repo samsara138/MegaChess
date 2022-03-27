@@ -1,26 +1,35 @@
 using Board;
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
 namespace Networking
 {
-    public class RoomManager : MonoBehaviourPunCallbacks, IPunObservable
+    public class RoomManager : MonoBehaviourPunCallbacks
     {
-        [SerializeField] List<BoardModel> boardModels;
-        [SerializeField] List<ChessRuleBook> ruleBooks;
 
-        [SerializeField] GameObject panelPrefab;
+        [SerializeField] private BoardManager boardManager;
 
-        private bool IsInitialize = false;
-        private int x = 10;
+
+        [SerializeField] private GameObject panelPrefab;
+
+        public BoardModel boardSetting = null;
+        public ChessRuleBookModel ruleSetting = null;
+
+        [Space]
+
+        [SerializeField] private List<BoardModel> boardModels;
+        [SerializeField] private List<ChessRuleBookModel> ruleBooks;
 
         public void Start()
         {
+            boardSetting = boardModels[0];
+            ruleSetting = ruleBooks[0];
+
             if (NetworkManager.Instance.IsMasterClient())
             {
+                ShowPanel();
             }
         }
 
@@ -28,18 +37,38 @@ namespace Networking
         {
             GameObject panel = GameObject.Instantiate(panelPrefab, transform);
             ChessRoomSetupPanel panelControl = panel.GetComponent<ChessRoomSetupPanel>();
-            panelControl.Config(boardModels);
+            panelControl.Config(boardModels, ruleBooks, this);
         }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void StartGame()
         {
-            if (stream.IsWriting)
+            boardManager.boardModel = boardSetting;
+            boardManager.ruleBook = ruleSetting;
+            boardManager.Setup();
+            Destroy(gameObject);
+        }
+
+        public void SetChessBoard(PanelTextButton button)
+        {
+            foreach(BoardModel board in boardModels)
             {
-                stream.SendNext(x);
-            }else if (stream.IsReading)
+                if(string.Equals(board.ModelName, button.id))
+                {
+                    boardSetting = board;
+                    return;
+                }
+            }
+        }
+
+        public void SetRulebook(PanelTextButton button)
+        {
+            foreach (ChessRuleBookModel rule in ruleBooks)
             {
-                int y = (int)stream.ReceiveNext();
-                Debug.LogError(y);
+                if (string.Equals(rule.ModelName, button.id))
+                {
+                    ruleSetting = rule;
+                    return;
+                }
             }
         }
     }

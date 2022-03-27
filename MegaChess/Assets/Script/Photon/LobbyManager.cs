@@ -2,7 +2,6 @@ using Networking;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UI;
@@ -23,6 +22,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     private List<GameObject> rooms = new List<GameObject>();
+    private Dictionary<string, string> roomNames = new Dictionary<string, string>();
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -47,9 +47,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach(KeyValuePair<string,RoomInfo> pair in cachedRoomList)
         {
             GameObject bufferObj = GameObject.Instantiate(RoomPanel, PanelTransform);
-            RoomPanelHandler panel = bufferObj.GetComponent<RoomPanelHandler>();
-            panel.Initialize(pair.Key);
+            rooms.Add(bufferObj);
+
+            PanelTextButton panel = bufferObj.GetComponent<PanelTextButton>();
+            panel.Initialize(pair.Key, pair.Key,OnClickRoom);
         }
+    }
+
+    private void OnClickRoom(PanelTextButton panelData)
+    {
+        NetworkManager.Instance.JoinRoom(panelData.id);
     }
 
     private void Start()
@@ -57,7 +64,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CreateRoomBtn.onClick.AddListener(OnClickCreateRoom);
         JoinRoomBtn.onClick.AddListener(OnClickJoinRoom);
         cachedRoomList.Clear();
-
     }
 
     private void OnClickCreateRoom()

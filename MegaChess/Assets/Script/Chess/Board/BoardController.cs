@@ -23,7 +23,7 @@ namespace Board
         public int Height => Model.Height;
         public int Width => Model.Width;
 
-        public void configure(ChessRuleBook ruleBook)
+        public void configure(ChessRuleBookModel ruleBook)
         {
             PieceData = new Dictionary<Vector2, PieceController>();
             EventManager.SubscribeToEvent(Core.EventType.ChessClickEvent, HandlePieceClick);

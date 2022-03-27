@@ -1,17 +1,12 @@
 using Core;
-using Networking;
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using Tile;
 using UnityEngine;
 
 namespace Board
 {
     public class BoardManager : MonoBehaviour
     {
-        [SerializeField] private BoardModel boardModel;
-        [SerializeField] private ChessRuleBook ruleBook;
+        public BoardModel boardModel;
+        public ChessRuleBookModel ruleBook;
 
         [Space]
 
@@ -23,7 +18,7 @@ namespace Board
         private BoardController controller;
 
         // Start is called before the first frame update
-        private void Start()
+        public void Setup()
         {
             GlobalParameters.BOARD_HEIGHT = boardModel.Height;
             GlobalParameters.BOARD_WIDTH = boardModel.Width;
