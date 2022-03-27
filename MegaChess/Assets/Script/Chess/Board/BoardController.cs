@@ -30,7 +30,6 @@ namespace Board
             EventManager.SubscribeToEvent(Core.EventType.TileClickEvent, HandleTileClick);
             playerState = new BoardPlayerState(ruleBook);
             PhotonNetwork.AddCallbackTarget(this);
-
         }
 
         public void UnBind()
