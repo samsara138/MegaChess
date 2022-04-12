@@ -73,7 +73,7 @@ namespace Board
                         {
                             Vector2 origLoc = moveBuffer.pieceController.gridPosition;
                             Vector2 destLoc = data.gridPosition;
-                            KillMoveEvent moveEvent = new KillMoveEvent(origLoc, destLoc);
+                            KillMoveEventData moveEvent = new KillMoveEventData(origLoc, destLoc);
                             moveEvent.Invoke();
                         }
                     }
@@ -94,7 +94,7 @@ namespace Board
                     {
                         Vector2 origLoc = moveBuffer.pieceController.gridPosition;
                         Vector2 destLoc = data.controller.gridPosition;
-                        NormalMoveEvent moveEvent = new NormalMoveEvent(origLoc, destLoc);
+                        NormalMoveEventData moveEvent = new NormalMoveEventData(origLoc, destLoc);
                         moveEvent.Invoke();
                     }
                 }
@@ -111,11 +111,11 @@ namespace Board
             switch (eventType)
             {
                 case PunEvent.NormalMoveEvent:
-                    NormalMoveEvent normalMoveData = new NormalMoveEvent(photonEvent);
+                    NormalMoveEventData normalMoveData = new NormalMoveEventData(photonEvent);
                     ExecuteNormalMove(normalMoveData);
                     break;
                 case PunEvent.KillMoveEvent:
-                    KillMoveEvent killMoveData = new KillMoveEvent(photonEvent);
+                    KillMoveEventData killMoveData = new KillMoveEventData(photonEvent);
                     ExecuteKillMove(killMoveData);
                     break;
             }

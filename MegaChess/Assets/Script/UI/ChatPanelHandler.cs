@@ -1,16 +1,18 @@
 using Core;
+using ExitGames.Client.Photon;
+using Networking;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-    public class TextPanelHandler : MonoBehaviour
+    public class ChatPanelHandler : MonoBehaviour, IOnEventCallback
     {
         [SerializeField] private GameObject textPanelLine;
+
 
         private void OnEnable()
         {
@@ -21,6 +23,27 @@ namespace UI
         {
             EventManager.UnsubscribeToEvent(Core.EventType.NewTextMessageEvent, OnNewTextMessageHandle);
         }
+
+        #region PhotonEvent
+
+        public void OnEvent(EventData photonEvent)
+        {
+            PunEvent eventType = (PunEvent)(int)photonEvent.Code;
+            switch (eventType)
+            {
+                case PunEvent.ShowChatEvent:
+                    ShowChatEventData data = new ShowChatEventData(photonEvent);
+                    HandleChatEvent(data);
+                    break;
+            }
+        }
+
+        private void HandleChatEvent(ShowChatEventData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         private void OnNewTextMessageHandle(object obj)
         {
@@ -33,5 +56,7 @@ namespace UI
             textObj.color = Color.black;
             textObj.text = data.text;
         }
+
+
     }
 }

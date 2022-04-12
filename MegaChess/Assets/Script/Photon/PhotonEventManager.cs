@@ -1,9 +1,6 @@
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Networking
@@ -11,10 +8,26 @@ namespace Networking
     public enum PunEvent
     {
         NormalMoveEvent = 1,
-        KillMoveEvent
+        KillMoveEvent,
+        ShowChatEvent,
     }
 
-    public class MoveEventData
+    public abstract class PunEventData
+    {
+        protected RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+        {
+            Receivers = ReceiverGroup.All
+        };
+
+        protected object[] eventContent;
+
+        protected void Invoke(PunEvent eventCode)
+        {
+            PhotonNetwork.RaiseEvent((byte)eventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+        }
+    }
+
+    public class MoveEventData : PunEventData
     {
         public Vector2 origLoc;
         public Vector2 destLoc;
@@ -33,32 +46,49 @@ namespace Networking
         }
     }
 
-    public class NormalMoveEvent : MoveEventData
+    public class NormalMoveEventData : MoveEventData
     {
-        public NormalMoveEvent(EventData photonEvent) : base(photonEvent) { }
-        public NormalMoveEvent(Vector2 origional, Vector2 destination) : base(origional, destination) { }
+        public NormalMoveEventData(EventData photonEvent) : base(photonEvent) { }
+        public NormalMoveEventData(Vector2 origional, Vector2 destination) : base(origional, destination) { }
 
         public void Invoke()
         {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            object[] content = new object[] { origLoc, destLoc };
-            PhotonNetwork.RaiseEvent((byte)PunEvent.NormalMoveEvent, content, raiseEventOptions, SendOptions.SendReliable);
+            eventContent = new object[] { origLoc, destLoc };
+            base.Invoke(PunEvent.NormalMoveEvent);
         }
     }
 
-    public class KillMoveEvent : MoveEventData
+    public class KillMoveEventData : MoveEventData
     {
-        public KillMoveEvent(EventData photonEvent) : base(photonEvent) { }
-        public KillMoveEvent(Vector2 origional, Vector2 destination) : base(origional, destination) { }
+        public KillMoveEventData(EventData photonEvent) : base(photonEvent) { }
+        public KillMoveEventData(Vector2 origional, Vector2 destination) : base(origional, destination) { }
 
         public void Invoke()
         {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            object[] content = new object[] { origLoc, destLoc };
-            PhotonNetwork.RaiseEvent((byte)PunEvent.KillMoveEvent, content, raiseEventOptions, SendOptions.SendReliable);
+            eventContent = new object[] { origLoc, destLoc };
+            base.Invoke(PunEvent.KillMoveEvent);
         }
     }
 
+    public class ShowChatEventData : PunEventData
+    {
+        public string chatText;
 
+        public ShowChatEventData(string chatMsg)
+        {
+            chatText = chatMsg;
+        }
 
+        public ShowChatEventData(EventData photonEvent)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            chatText = (string)data[0];
+        }
+
+        public void Invoke()
+        {
+            eventContent = new object[] { chatText };
+            base.Invoke(PunEvent.ShowChatEvent);
+        }
+    }
 }
